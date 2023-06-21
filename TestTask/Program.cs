@@ -104,111 +104,13 @@ namespace TestTask
             return persons;
         }
     }
-    internal class Person
-    {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
+    
 
-        [JsonPropertyName("transportId")]
-        public Guid TransportId { get; set; }
+    
 
-        [JsonPropertyName("firstName")]
-        public string? FirstName { get; set; }
+    
 
-        [JsonPropertyName("lastName")]
-        public string? LastName { get; set; }
-
-        [JsonPropertyName("sequenceId")]
-        public int SequenceId { get; set; }
-
-        [JsonPropertyName("creditCardNumbers")]
-        public string[]? CreditCardNumbers { get; set; }
-        [JsonIgnore]
-        public int Age { get; set; }
-
-        [JsonPropertyName("phones")]
-        public string[]? Phones { get; set; }
-        [JsonConverter(typeof(PosixDateTimeConverter))]
-        [JsonPropertyName("birthDate")]
-        public long BirthDate { get; set; }
-        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-        [JsonPropertyName("salary")]
-        public double Salary { get; set; }
-
-        [JsonPropertyName("isMarried")]
-        public bool IsMarried { get; set; }
-        [JsonConverter(typeof(StringEnumConverter))]
-        [JsonPropertyName("gender")]
-        public Gender Gender { get; set; }
-        [JsonInclude]
-        [JsonPropertyName("children")]
-        public Child[]? Children { get; set; }
-    }
-
-    internal class Child
-    {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-
-        [JsonPropertyName("firstName")]
-        public string? FirstName { get; set; }
-
-        [JsonPropertyName("lastName")]
-        public string? LastName { get; set; }
-        [JsonConverter(typeof(PosixDateTimeConverter))]
-        [JsonPropertyName("birthDate")]
-        public long BirthDate { get; set; }
-        [JsonConverter(typeof(StringEnumConverter))]
-        [JsonPropertyName("gender")]
-        public Gender Gender { get; set; }
-        [JsonIgnore]
-        public int Age => (int)((DateTime.Now - BirthDate.FromUnixTimeMilliseconds()).TotalDays / 365.25);
-    }
-
-    internal enum Gender
-    {
-        Male,
-        Female
-    }
-    internal class PosixDateTimeConverter : JsonConverter<long>
-    {
-        public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            return reader.GetInt64();
-        }
-
-        public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
-        {
-            writer.WriteNumberValue(value);
-        }
-    }
-
-    internal class StringEnumConverter : JsonConverter<Gender>
-    {
-        public override Gender Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            string? value = reader.GetString();
-            return Enum.Parse<Gender>(value, true);
-        }
-
-        public override void Write(Utf8JsonWriter writer, Gender value, JsonSerializerOptions options)
-        {
-            writer.WriteStringValue(value.ToString());
-        }
-    }
-    internal static class DateTimeExtensions
-    {
-        private static readonly DateTime UnixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-        public static long ToUnixTimeMilliseconds(this DateTime dateTime)
-        {
-            return (long)(dateTime.ToUniversalTime() - UnixEpoch).TotalMilliseconds;
-        }
-
-        public static DateTime FromUnixTimeMilliseconds(this long milliseconds)
-        {
-            return UnixEpoch.AddMilliseconds(milliseconds);
-        }
-    }
+    
+    
 
 }
